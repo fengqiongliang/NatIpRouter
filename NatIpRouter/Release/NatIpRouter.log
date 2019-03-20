@@ -1,0 +1,20 @@
+﻿生成启动时间为 2019/3/19 15:08:40。
+     1>项目“C:\cplusplusProject4\NatIpRouter\NatIpRouter\NatIpRouter.vcxproj”在节点 2 上(Build 个目标)。
+     1>Link:
+         C:\Program Files\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\cplusplusProject4\NatIpRouter\Release\NatIpRouter.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\cplusplusProject4\NatIpRouter\Release\NatIpRouter.pdb" /SUBSYSTEM:CONSOLE,"5.01" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\cplusplusProject4\NatIpRouter\Release\NatIpRouter.lib" /MACHINE:X86 /SAFESEH Release\fileprint.obj
+         Release\main.obj
+         Release\NatAdapter.obj
+         Release\NatMain.obj
+         Release\NatNdisApi.obj
+         Release\NatTable.obj
+         Release\ndisapi.obj
+         Release\ServiceMain.obj
+         Release\stdafx.obj
+         正在生成代码
+         已完成代码的生成
+         NatIpRouter.vcxproj -> C:\cplusplusProject4\NatIpRouter\Release\NatIpRouter.exe
+     1>已完成生成项目“C:\cplusplusProject4\NatIpRouter\NatIpRouter\NatIpRouter.vcxproj”(Build 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:01.52

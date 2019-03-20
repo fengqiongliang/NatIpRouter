@@ -1,0 +1,1 @@
+void fileprint(const char* msg);
