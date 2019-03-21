@@ -1,0 +1,1477 @@
+
+<!-- saved from url=(0070)http://www.softpanorama.org/Net/Network_interface_layer/ethernet.shtml -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta http-equiv="Content-Language" content="en-us">
+
+<title>Ethernet Protocol</title>
+<link rel="stylesheet" type="text/css" href="./Ethernet Protocol_files/main.css">
+<link rel="preload" href="./Ethernet Protocol_files/integrator.js" as="script"><script src="./Ethernet Protocol_files/osd.js"></script><script src="./Ethernet Protocol_files/ca-pub-4031247137266443.js"></script><script type="text/javascript" src="./Ethernet Protocol_files/integrator.js"></script><link rel="preload" href="http://pagead2.googlesyndication.com/pagead/js/r20190114/r20180604/show_ads_impl.js" as="script"></head>
+
+<body>
+
+<basefont face="Times" size="3">
+<table border="0" width="100%" id="table1" cellspacing="1" cellpadding="4">
+<tbody><tr>
+<td rowspan="2" width="40%">
+
+<p align="center"><img border="0" src="./Ethernet Protocol_files/splogo.gif" width="45"><font face="Bernard MT Condensed" color="#FF0000" size="7">
+<font color="#FF0000"><a href="http://www.softpanorama.org/index.shtml">Softpanorama</a></font></font></p>
+</td>
+<td align="center">
+
+<b><a href="http://www.softpanorama.org/index.shtml"><font size="2">Home</font></a></b></td>
+<td align="center">
+
+<b><a href="http://www.softpanorama.org/switchboard.shtml"><font size="2">Switchboard</font></a></b></td>
+<td align="center">
+
+<b><a href="http://www.softpanorama.org/Admin/index.shtml"><font size="2">Unix Administration</font></a></b></td>
+<td align="center">
+
+<b><a href="http://www.softpanorama.org/Commercial_linuxes/RHEL/index.shtml"><font size="2">Red Hat</font></a></b></td>
+<td align="center">
+
+<b><a href="http://www.softpanorama.org/Net/index.shtml"><font size="2">TCP/IP Networks</font></a></b></td>
+<td align="center">
+
+<b><a href="http://www.softpanorama.org/Skeptics/Political_skeptic/Neoliberalism/index.shtml"><font size="2">Neoliberalism</font></a></b></td>
+<td align="center">
+
+<b><a href="http://www.softpanorama.org/Social/Toxic_managers/index.shtml"><font size="2">Toxic Managers</font></a></b></td>
+</tr>
+<tr>
+<td colspan="7" align="center">
+
+<i><b>May the source be with you, but remember the KISS principle ;-)<br>
+<font size="1">Bigger doesn't imply better. Bigger often is a sign of obesity, of lost control, of overcomplexity, of cancerous 
+cells</font></b></i></td>
+</tr>
+</tbody></table>
+<hr width="100%" noshade="" size="5" color="#FF0000">
+<center>
+<script async="" src="./Ethernet Protocol_files/adsbygoogle.js"></script>
+<!-- top_large_banner -->
+<ins class="adsbygoogle" style="display:inline-block;width:970px;height:90px" data-ad-client="ca-pub-4031247137266443" data-ad-slot="9138796897" data-adsbygoogle-status="done"><ins id="aswift_0_expand" style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:970px;background-color:transparent;"><ins id="aswift_0_anchor" style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:970px;background-color:transparent;"><iframe width="970" height="90" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;border:0px;width:970px;height:90px;" __idm_frm__="286" src="./Ethernet Protocol_files/saved_resource.html"></iframe></ins></ins></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</center>
+
+<h1 align="center">
+Ethernet Protocol</h1>
+<h4 align="center">
+(Adapted from Lecture notes for FDU students by Professor Nikolai Bezroukov)
+</h4>
+<table border="1" cellpadding="0" cellspacing="0" width="100%" bgcolor="#FFFFCC">
+	<tbody><tr>
+		<td width="16%" align="center"><a href="http://www.softpanorama.org/Net/Network_interface_layer/ethernet.shtml#News">News</a></td>
+		<td width="16%" align="center"><a href="http://www.softpanorama.org/Net/Network_interface_layer/ethernet.shtml#Recommended_Links">Recommended 
+		Links</a></td>
+		<td width="17%" align="center"><a href="http://www.softpanorama.org/Net/Network_interface_layer/ethernet.shtml#FAQs">FAQs</a></td>
+		<td width="17%" align="center"><a href="http://www.softpanorama.org/Net/Network_interface_layer/ethernet.shtml#Reference">Reference</a></td>
+		<td width="17%" align="center">
+		<a href="http://www.softpanorama.org/Net/Netutils/ifconfig.shtml">Solaris ifconfig</a></td>
+		<td width="9%" align="center">
+		<a href="http://www.softpanorama.org/Net/Netutils/netstat.shtml">netstat</a></td>
+	</tr>
+	<tr>
+		<td width="16%" align="center"><a href="http://www.softpanorama.org/Net/Network_interface_layer/autonegotiation.shtml">Autonegotiation</a></td>
+		<td width="16%" align="center">
+		<a href="http://www.softpanorama.org/Net/Netutils/ethtool.shtml">ethtool</a></td>
+		<td width="17%" align="center"><a href="http://www.softpanorama.org/Net/Network_interface_layer/vendor_prefixes.shtml">Ethernet 
+		Codes: Vendor codes</a></td>
+		<td width="17%" align="center"><a href="http://www.softpanorama.org/Net/Network_interface_layer/ethernet.shtml#Quiz">Quiz</a></td>
+		<td width="17%" align="center"><b><a href="http://www.softpanorama.org/Net/net_humor.shtml">Humor</a></b></td>
+		<td width="9%" align="center"><a href="http://www.softpanorama.org/Net/Network_interface_layer/ethernet.shtml#Etc">Etc</a></td>
+	</tr>
+</tbody></table>
+
+<table border="0" width="178" height="620" align="right" cellspacing="4" bgcolor="#FFFFFF">
+   <tbody><tr>
+      <td>
+
+      <table border="1" width="174" height="616" align="center" bgcolor="#FF0000">
+         <tbody><tr>
+            <td>
+<script async="" src="./Ethernet Protocol_files/adsbygoogle.js"></script>
+<!-- Upper skyscaper -->
+<ins class="adsbygoogle" style="display:inline-block;width:160px;height:600px" data-ad-client="ca-pub-4031247137266443" data-ad-slot="0371843916" data-adsbygoogle-status="done"><ins id="aswift_1_expand" style="display:inline-table;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:160px;background-color:transparent;"><ins id="aswift_1_anchor" style="display:block;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:160px;background-color:transparent;"><iframe width="160" height="600" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;border:0px;width:160px;height:600px;" __idm_frm__="288" src="./Ethernet Protocol_files/saved_resource(1).html"></iframe></ins></ins></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+            </td>
+         </tr>
+      </tbody></table></td>
+   </tr>
+</tbody></table>
+<p><b><a href="http://www.softpanorama.org/Net/Network_interface_layer/ethernet.shtml#Summary">Summary</a></b></p>
+<p><b><a href="http://www.softpanorama.org/Net/Network_interface_layer/ethernet.shtml#Introduction">Introduction</a></b></p>
+<p><b><a href="http://www.softpanorama.org/Net/Network_interface_layer/ethernet.shtml#CSMA_CD_Access_Method">CSMA/CD Access Method</a></b></p>
+<p><b><a href="http://www.softpanorama.org/Net/Network_interface_layer/ethernet.shtml#Half_duplex_and_Full_Duplex_Mode">Half-duplex and Full Duplex 
+Mode</a></b></p>
+<p><b><a href="http://www.softpanorama.org/Net/Network_interface_layer/ethernet.shtml#Ethernet_Statistics">Ethernet Statistics</a></b></p>
+<ul>
+	<li>
+	<p><a href="http://www.softpanorama.org/Net/Network_interface_layer/ethernet.shtml#Collision_rates">Collision rates</a></p>
+	</li>
+	<li>
+	<p><a href="http://www.softpanorama.org/Net/Network_interface_layer/ethernet.shtml#Input_Output_Errors">Input/Output Errors</a></p>
+	</li>
+</ul>
+<p><b><a href="http://www.softpanorama.org/Net/Network_interface_layer/ethernet.shtml#Ethernet_Addresses">Ethernet Addresses</a></b></p>
+<ul>
+	<li>
+	<p><a href="http://www.softpanorama.org/Net/Network_interface_layer/ethernet.shtml#Setting_a_Local_Ethernet_Address">Setting a Local Ethernet 
+	Address</a></p>
+	</li>
+</ul>
+<p><b><a href="http://www.softpanorama.org/Net/Network_interface_layer/ethernet.shtml#Ethernet_frame_format">Ethernet frame format</a></b></p>
+<ul>
+	<li><a href="http://www.softpanorama.org/Net/Network_interface_layer/ethernet.shtml#IEEE_802.3_frame_format_">IEEE 802.3 frame format</a></li>
+	<li><a href="http://www.softpanorama.org/Net/Network_interface_layer/ethernet.shtml#Ethernet_version_2_frame_format_">Ethernet version 2 frame 
+	format</a></li>
+</ul>
+<p><b><a href="http://www.softpanorama.org/Net/Network_interface_layer/ethernet.shtml#Maximum_Transfer_Units">Maximum Transfer Units</a></b></p>
+<p><b><a href="http://www.softpanorama.org/Net/Network_interface_layer/ethernet.shtml#Ethernet_Frame_Errors">Ethernet Frame Errors</a></b></p>
+<p><b><a href="http://www.softpanorama.org/Net/Network_interface_layer/ethernet.shtml#IP_Configuration">IP Configuration</a></b></p>
+<p><b><a href="http://www.softpanorama.org/Net/Network_interface_layer/ethernet.shtml#Troubleshooting">Troubleshooting</a></b></p>
+<hr width="33%">
+<h2>
+<a name="Summary">Summary</a></h2>
+<ul>
+	<li><b>Carrier Sense Multiple Access With Collision Detection</b> (<b>CSMA/CD</b>) 
+	is a network control protocol in which<ul lastcheckbox="null">
+		<li><b>a carrier sensing scheme is used</b> (each interface monitors 
+		the network for the a carrier signal (Carrier Sense)) </li>
+		<li><b>During the gap between transmissions, each interface has 
+		an equal chance to transmit data </b></li>
+		<li><b>If a transmitting station detects another signal while transmitting 
+		a frame</b> (Collision Detection that is performed in transceiver 
+		circuitry) , <b>it stops transmitting that frame</b>, transmits 
+		a jam signal, and then waits for a random time interval (known as 
+		"backoff delay" and determined using the truncated binary exponential 
+		backoff algorithm) before trying to send that frame again.<br>
+&nbsp;</li>
+	</ul>
+	</li>
+	<li>A <b>duplex communication</b> system is a system composed of two 
+	connected parties or devices which can communicate with one another 
+	in both directions.<ul>
+		<li>A <b>half-duplex</b> system provides for communication in both 
+		directions, but only one direction at a time (not simultaneously). 
+		Typically, once a party begins receiving a signal, it must wait 
+		for the transmitter to stop transmitting, before replying.</li>
+		<li>A <b>full-duplex</b> system allows communication in both directions, 
+		and unlike half-duplex, allows this to happen simultaneously.<br>
+&nbsp;</li>
+	</ul>
+	</li>
+	<li><b><font color="#0000FF">Netstat</font></b> command displays important 
+	Ethernet statistics as well as important IP statistic and parameters 
+	(routing table, active connection, etc).&nbsp;&nbsp; With option <b>
+	- i&nbsp; </b>it displays statistics&nbsp; including Ethernet statistics 
+	like MTU (Solaris). Used without parameters, <b>netstat</b> displays 
+	active TCP connections.<blockquote>
+		<p><b>netstat</b> [<b>-a</b>] [<b>-i</b>] [ <b>-e</b>] [<b>-n</b>] 
+		[<b>-o</b>] [<b>-p</b> <i>Protocol</i>] [<b>-r</b>] [<b>-s</b>] 
+		[<i>Interval</i>]</p>
+		<p>&nbsp;</p>
+	</blockquote>
+	</li>
+	<li><b>Collision rates.&nbsp; </b>A collision is the mechanism used 
+	by Ethernet to control access and allocate shared bandwidth among stations 
+	that want to transmit at the same time on a shared medium. Because the 
+	medium is shared, a mechanism must exist where two stations can detect 
+	that they want to transmit at the same time. This mechanism is collision 
+	detection. Collision rates higher then 5% on 10-Mbps LAN and 10% on 
+	100-Mbps LAN are first indications of the network overload. Switches 
+	minimize collisions so this is not a problem in modern LAN. <br>
+&nbsp;</li>
+	<li><b>An Ethernet address</b> is sometimes referred to as a media access 
+	control (MAC) address. An Ethernet address is 48 bits long and is displayed 
+	as 12 hexadecimal digits (six groups of two digits) separated by colons. 
+	An example of an Ethernet address is&nbsp; 44-45-53-54-42-00<ul>
+		<li>The IEEE administers unique Ethernet addresses. IEEE designates 
+		the first three octets as vendor-specific.</li>
+		<li>There are three types of addresses: unicast, broadcast, and 
+		multicast.
+		<ul>
+			<li><b>Unicast Addresses.</b> Unicast addresses are used for 
+			one-to-one communication. The system uses a unicast address 
+			to send a message to another system on the local Ethernet network. 
+			You can use a system’s unique Ethernet address as a unicast 
+			address. </li>
+			<li><b>Broadcast Addresses.</b> A device uses a broadcast address 
+			to send messages to all systems on the local Ethernet network. 
+			The Ethernet broadcast address is represented in the form of 
+			all 1s in binary format and as <font color="#0000FF">ff:ff:ff:ff:ff:ff
+			</font>in hexadecimal format. When the Network Interface layer 
+			receives an Ethernet frame with a destination address of all 
+			1s, it passes the address to the next layer for processing.
+			</li>
+			<li><b>Multicast Addresses. </b>A system uses a multicast address 
+			to send a message to a subset of systems on the local Ethernet.
+			<i><b>In Ethernet multicast addressing, the value of the first 
+			three octets determines if the address is multicast.</b></i> 
+			The last three octets determine the specific multicast’s group 
+			identity. </li>
+		</ul>
+		</li>
+		<li>To view the current host-based Ethernet address, perform the 
+		command at the ok prompt:
+		<blockquote>
+			<p><font face="Fixedsys" color="#0000FF">ok banner<br>
+&nbsp;</font></p>
+		</blockquote>
+		</li>
+		<li>To display the Ethernet address assigned to each interface, 
+		perform the command:
+		<blockquote>
+			<p><font face="Fixedsys" color="#0000FF"># ifconfig -a</font></p>
+			<p><font face="Fixedsys" color="#0000FF"><br>
+			hme0: flags=1000843&lt;UP,BROADCAST,RUNNING,MULTICAST,IPv4&gt; mtu 
+			1500 index 2 <br>
+			inet 192.168.30.31 netmask ffffff00 broadcast 192.168.30.255
+			<br>
+			ether 8:0:20:b9:72:23<br>
+&nbsp;</font></p>
+		</blockquote>
+		</li>
+		<li>You need to set the <b><font color="#0000FF">local-mac-address?
+		</font></b>variable in the system’s EEPROM to true to be able to 
+		modify MAC address of the adapters in the system.&nbsp; To view 
+		the contents of the EEPROM for the definition of the local-mac-address? 
+		variable, perform the command:
+		<blockquote>
+			<p><font face="Fixedsys" color="#0000FF"># eeprom local-mac-address?<br>
+			local-mac-address?=false</font></p>
+		</blockquote>
+		</li>
+	</ul>
+	</li>
+	<li><b>The maximum transfer unit (MTU)</b> is the largest amount of 
+	data that can be transferred across a physical network. The Ethernet 
+	MTU is hardware&nbsp; specific. For a physical Ethernet interface, the 
+	MTU is 1500 bytes, while the MTU is 8232 bytes for a loopback interface.
+	<br>
+&nbsp;</li>
+	<li><b><a href="http://www.softpanorama.org/Net/Network_interface_layer/ethernet.shtml#Ethernet_Frame_Errors">Ethernet Frame Errors</a> are:
+	</b>
+	<ul>
+		<li><b>Runts </b>Packets that are less than 64 bytes are too short 
+		and are discarded. Runts are usually caused by collisions. These 
+		can be formed by poor wiring and electrical interference. </li>
+		<li><b>Jabbers </b>Packets that are greater than 1500 bytes (MTU) 
+		are too long and are discarded. These indicate that a device has 
+		electrical problems. </li>
+		<li><b>Long </b>A frame that is between 1518 and 6000 bytes long, 
+		often because of faulty hardware or software on the sending system.
+		</li>
+		<li><b>Giant </b>A frame that is more than 6000 bytes long, often 
+		because of faulty hardware or software on the sending system.
+		</li>
+		<li><b>Bad CRC</b> If the received packet fails the CRC, the packet 
+		is corrupted and discarded. This is also known as a frame check 
+		sequence (FCS) error. <br>
+&nbsp;</li>
+	</ul>
+	</li>
+	<li>
+	<p align="left"><b><a href="http://www.softpanorama.org/Net/Network_interface_layer/ethernet.shtml#Troubleshooting">Troubleshooting</a></b>
+	</p>
+	<ul>
+		<li>
+		<p align="left"><b><code>/sbin/ifconfig:</code></b>&nbsp; An
+		<code>ifconfig -a</code> will give you information about all NIC, 
+		including IP address (inet), subnet mask (netmask), and if run as 
+		root, the MAC address (ether). Only root gets full information from 
+		this command. </p>
+		</li>
+		<li>
+		<p align="left"><b>Netatat</b></p>
+		<ul>
+			<li><font face="Fixedsys" color="#0000FF">netstat -i #
+			</font>General information with statistics on each NIC. Often 
+			used in homemade monitoring scripts. </li>
+			<li><code>netstat -a</code>. # Port/Socket information can be 
+			had with a </li>
+			<li><code>netstat -rn # </code>most popular way to check current 
+			system routing tables with . </li>
+		</ul>
+		</li>
+		<li><b><code>/usr/sbin/snoop</code></b><ul>
+			<li><font face="Fixedsys" color="#0000FF">snoop -d hme0 broadcast</font> 
+			#only broadcast frames in summary mode </li>
+			<li><font face="Fixedsys" color="#0000FF">snoop -d qfe0 -V 192.168.1.2
+			</font></li>
+			<li><font face="Fixedsys" color="#0000FF">snoop -d qfe0 -o /tmp/snooper 
+			192.168.1.2 # capture to a file</font></li>
+			<li><font face="Fixedsys" color="#0000FF">snoop -d qfe0 -o /tmp/snooper 
+			broadcast # same with broadcast</font></li>
+			<li><font color="#0000FF" face="Fixedsys">snoop -i /tmp/snooper 
+			-V | egrep -iv 'nfs|ack|contin|ftp|ip'</font></li>
+		</ul>
+		</li>
+	</ul>
+	<ul>
+		<li><b><code>/usr/sbin/arp:</code></b> <code>arp</code> allows you 
+		to view that table to see what kind of information your computer 
+		has cached, as well as to input or delete entries, in case of problems. 
+		When having DNS issues, an <code>arp</code> command with the
+		<code>-an</code> option will list the entire table without resolving 
+		IP address to host names. <code>arp</code> is one way to get the 
+		MAC address of the NIC answering for a host. </li>
+	</ul>
+	</li>
+</ul>
+<h2>
+<a name="Introduction">Introduction</a></h2>
+<p>At its most basic form, a network consists of two computers that connect 
+to each other to collaborate on a particular task. These collaborative tasks 
+range from simple file transfers to the complex tasks of distributed computing 
+or clustering.</p>
+<p>There are two basic parts to a network: the physical medium and the network 
+protocol. The physical medium employed in a network varies, depending on 
+how you need to connect your computers, and how much you are willing to 
+spend. Some of the common methods used for computer connectivity include:</p>
+<p>Ethernet is a <b>baseband</b> networking technology that has been defined 
+by various standards. Ethernet is the most dominant LAN technology: </p>
+<p>A baseband technology devotes the entire <b>bandwidth</b> of the media 
+to one channel. Simplistically, bandwidth can be defined as a measure of 
+network capacity - the greater the available bandwidth, the greater the 
+network's resilience to loading. The inclusion of the word "base" in 10BaseT, 
+10Base5 etc., simply refers to Ethernet's baseband nature. The most common 
+IEEE media identifiers are: </p>
+<ul>
+	<li><b>10BaseT </b>This is older standard office/home networking technology 
+	that uses cables with wires that are twisted in pairs. A hub/switch 
+	allows for the connection of multiple computers. It uses <b>unshielded 
+	twisted pair</b> <b>category 5 </b>cabling&nbsp; and <b>RJ45</b> connectors. 
+	UTP cable resembles domestic telephone wire. The RJ45 connectors are 
+	American telephone connectors. 10BaseT operates at <b>10Mbps</b> or 
+	100 Mbps with a maximum <b>100 meters</b> segment length. 10BaseT uses 
+	a <b>star</b> physical topology.<p></p>
+	</li>
+	<li><b>100BASE-TX Media Type </b>The 100BASE-TX media type is based 
+	on specifications published in the American National Standards Institute 
+	(ANSI) Twisted-Pair – Physical Media Standard (TP-PMD). The 100BASE-TX 
+	media type carries 100 Mbps signals over two pairs of wire. Because 
+	the ANSI TP-PMD specification provides for the use of either unshielded 
+	twisted-pair or shielded twisted-pair cable, 100BASE-TX uses both.<i><b> 
+	Requres Category 5 cable.</b></i> <br>
+&nbsp;</li>
+	<li><b>100BASE-T4 Media Type </b>The 100BASE-T4 media type operates 
+	over four pairs of wires. The <br>
+	signaling system makes it possible to provide fast Ethernet signals 
+	(100 MHz)<i><b> over any existing standard voice-grade Category 3 or 
+	4 unshielded twisted-pair cable that might be installed.</b></i> One 
+	pair of wires transmits data (TX), one pair receives data (RX), and 
+	two pairs are bidirectional (BI) data pairs. The 100BASE-T4 specifications 
+	recommend using Category 5 patch cables, jumpers, and connecting hardware 
+	whenever possible because these higher-quality components and cables 
+	improve the reception of signals on the link. <br>
+&nbsp;</li>
+	<li><b>100BASE-FX Media Type </b>The 100BASE-FX (fast fiber-optic) media 
+	system uses pulses of light instead of electrical currents to send signals. 
+	The use of fiber provides superior electrical isolation for equipment 
+	at each end of the fiber link. While LAN equipment used in metallic 
+	media segments has protection circuits designed for typical indoor electrical 
+	hazards, fiber-optic media is nonconductive. This complete electrical 
+	isolation provides immunity from much larger electrical hazards, such 
+	as lightning strikes, and from the flow of current that can result from 
+	having different levels of electrical ground currents that can be found 
+	in separate buildings. Complete electrical isolation is essential when 
+	using LAN segments to link separate buildings.
+	<p>An advantage of the 100BASE-FX fiber-optic link segment is that it 
+	can span long distances. Fiber also provides more security because the 
+	optical signal does not cause induction. <br>
+&nbsp;</p>
+	</li>
+	<li><b>1000BASE-X Media Type </b>In 1998, the IEEE Standards Board approved 
+	802.3z, the gigabit Ethernet standard for 1000 Mbps over <i><b>multimode 
+	fiber</b></i> (MMF) and <i><b>single-mode fiber </b></i>(SMF). Gigabit 
+	Ethernet is an extension of the successful 10-Mbps and 100-Mbps 802.3 
+	standards. Gigabit Ethernet provides a raw bandwidth of 1000 Mbps and 
+	maintains full compatibility with the installed base of over 100 million 
+	Ethernet nodes. Gigabit Ethernet includes both full-duplex and half-duplex 
+	operating modes. The 1000BASE-X standard refers to two implementations 
+	of fiber-optic segment types: 1000BASE-SX and 1000BASE-LX. 1000BASE-SX 
+	Media Type:<br>
+&nbsp;<ul>
+		<li><b>1000BASE-SX media</b> system is <i><b>the shortest wavelength 
+		specification</b></i> because it uses short wavelength lasers to 
+		transmit data over fiber-optic cable. Sun’s implementation of the 
+		1000BASE-SX system specification supports the following distances:
+		<br>
+&nbsp;<ul>
+			<li>300 meters over 62.5-micron <b>MMF</b> cable </li>
+			<li>550 meters over 50-micron <b>MMF</b> cable 1000BASE-LX Media 
+			Type <br>
+&nbsp;</li>
+		</ul>
+		</li>
+		<li><b>1000BASE-LX media system (gigabit Ethernet over Multi-mode 
+		Fiber and Single-mode Fiber) </b>is the <i><b>longest wavelength 
+		specification</b></i> because it uses longwave lasers to transmit 
+		data over fiber-optic cable. Sun’s implementation of the 1000BASE-SX 
+		system specification supports the following distances:
+		<ul>
+			<li>550 meters over 62.5-micron and 50-micron <b>MMF</b> cable
+			</li>
+			<li>3000 meters over 9-micron <b>SMF</b> cable </li>
+		</ul>
+		</li>
+	</ul>
+	</li>
+</ul>
+<p>Ethernet was designed as a packet-switching LAN over broadcast technology. 
+Devices connect to the network and compete for access to a shared communications 
+channel. The IEEE 802.3 standard for Ethernet was defined in 1985. Ethernet 
+standards are implemented at the Network Interface layer of the TCP/IP protocol 
+model. The three major elements of Ethernet networks are: </p>
+<ul>
+	<li>Ethernet packets are called frames. These are units of data sent 
+	across the network. </li>
+	<li>The Ethernet access method, CSMA/CD. This method controls packet 
+	transmission and information flow across the Ethernet hardware. </li>
+	<li>Hardware cables, connectors, and circuitry. These transfer data 
+	to and from systems across the network. </li>
+</ul>
+<p>There are no levels of priority for transmission. All computers on an 
+Ethernet network are considered equal in terms of their access to the media. 
+Unless it is switched : </p>
+<ul>
+	<li>Ethernet uses carrier sensed multiple access with collision detection 
+	(CSMA/CD) as its method of medium access control.</li>
+	<li>Data in the Ethernet are accessible to all connected devices.</li>
+	<li>High load on a LAN segment can lead to
+	<a target="_blank" href="http://burks.bton.ac.uk/burks/pcinfo/hardware/ethernet/framepac.htm">
+	packet</a> collisions and a marked drop in network efficiency.</li>
+	<li>Ethernet has a broadcast logical topology - data is sent to all 
+	nodes on the network simultaneously.</li>
+	<li>Ethernet remains the most common LAN architecture.
+	<a target="_blank" href="http://burks.bton.ac.uk/burks/pcinfo/hardware/ethernet/atm.htm">
+	ATM</a> has become important as a LAN technology in areas of the computing 
+	industry where high data transfer rates are required. Multimedia, computer 
+	graphics and video conferencing all need fast networks, therefore ATM 
+	is a good choice, but the emergent
+	<a target="_blank" href="http://burks.bton.ac.uk/burks/pcinfo/hardware/ethernet/future.htm">
+	gigabit Ethernet</a> may challenge ATM.&nbsp;&nbsp; </li>
+	<li>Ethernet corresponds to the network interface layer of TCP/IP model.<br>
+	</li>
+	<li>Interfaces have been developed to connect all types of computer, 
+	across many types of media, to Ethernet. PCs use a network interface 
+	card (NIC) with RJ45 connector .</li>
+</ul>
+<p>Even if two networks are using the same medium, they can be using two 
+completely different protocols or methods of communication. Some protocols 
+used in today's networks include: </p>
+<ul>
+	<li><b>TCP/IP</b> -- The Internet standard. Each NIC is assigned an 
+	IP address and subnet mask. These are used to determine which machines 
+	are in the local network and which require traffic to be sent through 
+	a router. </li>
+	<li><b>IPX/SPX</b> -- A broadcast protocol developed by Novell. Each 
+	NIC is assigned a unique IPX network address. </li>
+	<li><b>AppleTalk </b>-- An Apple proprietary protocol. Each NIC is assigned 
+	a network number, a node number, and a socket number. Similar to TCP/IP 
+	in its configuration and routing abilities. </li>
+</ul>
+<h2>
+<b><a name="CSMA_CD_Access_Method">CSMA/CD Access Method</a></b></h2>
+<p align="right"><i>Partly derived from
+<a title="Federal Standard 1037C" href="http://en.wikipedia.org/wiki/Federal_Standard_1037C">
+Federal Standard 1037C</a> and
+<a target="_blank" href="http://en.wikipedia.org/wiki/Carrier_Sense_Multiple_Access">
+Wikipedia Article</a></i></p>
+<p><b>Carrier Sense Multiple Access With Collision Detection</b> (<b>CSMA/CD</b>) 
+is a network control protocol in which</p>
+<ul lastcheckbox="null">
+	<li>a carrier sensing scheme is used (each interface monitors the network 
+	for the a carrier signal (Carrier Sense)) </li>
+	<li>During the gap between transmissions, each interface has an equal 
+	chance to transmit data </li>
+	<li>If a transmitting station detects another signal while transmitting 
+	a frame (Collision Detection that is performed in transceiver circuitry) 
+	, it stops transmitting that frame, transmits a jam signal, and then 
+	waits for a random time interval (known as "backoff delay" and determined 
+	using the truncated binary exponential backoff algorithm) before trying 
+	to send that frame again. </li>
+</ul>
+<p><b>CSMA/CD</b> is a modification of pure Carrier Sense Multiple Access 
+(<b>CSMA</b>). In CSMA/CD, sending nodes are able to detect when a collision 
+occurs and stop transmitting immediately, backing off for a random amount 
+of time before trying again. This results in much more efficient use of 
+the media since the bandwidth of transmitting the entire frame is not wasted. 
+However, it is not possible with all media (e.g., radio), and requires extra 
+electronics (not an issue with today's technology, but one reason Apple 
+used CSMA/CA-based
+<a title="LocalTalk" href="http://en.wikipedia.org/wiki/LocalTalk">LocalTalk</a> 
+instead of the then much more expensive
+<a title="Ethernet" href="http://en.wikipedia.org/wiki/Ethernet">Ethernet</a>).
+</p>
+<p>Collision detection is used to improve <b>CSMA</b> performance by terminating 
+transmission as soon as a collision is detected, and reducing the probability 
+of a second collision on retry.</p>
+<p>Methods for collision detection are media dependent, but on an electrical 
+bus such as Ethernet, <i><b>collisions can be detected by comparing transmitted 
+data with received data. </b></i>If they differ, another transmitter is 
+overlaying the first transmitter's signal (a collision), and transmission 
+terminates immediately. A jam signal is sent which <i><b>will cause all 
+transmitters to back off by random intervals</b></i>, reducing the probability 
+of a collision when the first retry is attempted. </p>
+<p><a title="Ethernet" href="http://en.wikipedia.org/wiki/Ethernet">Ethernet</a> 
+is the classic CSMA/CD protocol. Non-switched Ethernet uses a broadcast 
+delivery mechanism in which each frame that is transmitted is heard by every 
+station. CSMA/CD is an arbitrary access method that provides a method to 
+detect and recover from simultaneous transmissions. Each interface monitors 
+the network for a carrier signal (Carrier Sense). During a gap between transmissions, 
+each interface has an equal chance to transmit data (Multiple Access). If 
+two interfaces try to transmit data at the same time, the transceiver circuitry 
+detects a transmit collision (Collision Detection). Both interfaces must 
+wait a short period of time before they attempt to resend data. The wait 
+period is determined by using an exponential back-off algorithm. </p>
+<p>Algorithms of CSMA/CD accesses the network was originally developed for 
+the original Ethernet topology. Ethernet originally consisted of a single-wire, 
+bidirectional backbone. The theory of operation is still the same today, 
+but Ethernet topologies use more advanced components that allow a higher 
+transmission rate. </p>
+<ol>
+	<li>The host has a message </li>
+	<li>Is there traffic on the network. If yes go to step 2 (loop until 
+	no traffic )</li>
+	<li>The host sends the message</li>
+	<li>Was there a collision ? If no -- success go to step 7. </li>
+	<li>Send the jam signal</li>
+	<li>Wait. Back off exponentially. Then go to step 2 (collision loop)</li>
+	<li>Success</li>
+</ol>
+<p>See also the similar
+<a title="Carrier sense multiple access with collision avoidance" href="http://en.wikipedia.org/wiki/Carrier_sense_multiple_access_with_collision_avoidance">
+Carrier sense multiple access with collision avoidance</a> (<b>CSMA/CA</b>) 
+protocol.</p>
+<h2>
+<a name="Half_duplex_and_Full_Duplex_Mode">Half-duplex and Full Duplex Mode</a></h2>
+A <b>duplex communication</b> system is a system composed of two connected 
+parties or devices which can communicate with one another in both directions. 
+(The term <i>duplex</i> is not used when describing communication between 
+more than two parties or devices.)<p>Duplex systems are employed in nearly 
+all communications networks, either to allow for a communication "two-way 
+street" between two connected parties or to provide a "reverse path" for 
+the monitoring and remote adjustment of equipment in the field.</p>
+<ul>
+	<li>A <b>half-duplex</b> system provides for communication in both directions, 
+	but only one direction at a time (not simultaneously). Typically, once 
+	a party begins receiving a signal, it must wait for the transmitter 
+	to stop transmitting, before replying.<p>An example of a half-duplex 
+	system is a two-party system such as a "walkie-talkie" style two-way 
+	radio, wherein one must use "Over" or another procedure to indicate 
+	the end of transmission, and ensure that only one party transmits at 
+	a time, because both parties transmit on the same frequency. A good 
+	analogy for a half-duplex system would be a one lane road with traffic 
+	controllers at each end. Traffic can flow in both directions, but only 
+	one direction at a time with this being regulated by the controllers.<br>
+&nbsp;</p>
+	</li>
+	<li>A <b>full-duplex</b> system allows communication in both directions, 
+	and unlike half-duplex, allows this to happen simultaneously. Land-line 
+	telephone networks are full-duplex since they allow both callers to 
+	speak and be heard at the same time. A good analogy for a <i>full-duplex</i> 
+	system would be a two lane road with one lane for each direction. Examples:
+	<a title="Telephone" href="http://en.wikipedia.org/wiki/Telephone">Telephone</a>,
+	<a title="Mobile Phone" href="http://en.wikipedia.org/wiki/Mobile_Phone">
+	Mobile Phone</a>, etc.<p>Two way radios can be, for instance, designed 
+	as full-duplex systems, which transmit on one frequency and receive 
+	on a different frequency. This is also called <i>frequency-division 
+	duplex.</i> Frequency-division-duplex systems can be extended to farther 
+	distances using pairs of simple repeater stations, owing to the fact 
+	the communications transmitted on any one frequency always travels in 
+	the same direction. </p>
+	</li>
+</ul>
+<h2>
+<a name="Ethernet_Statistics">Ethernet Statistics</a></h2>
+Netstat command displays active TCP connections, ports on which the computer 
+is listening, Ethernet statistics, the IP routing table, IPv4 statistics 
+(for the IP, ICMP, TCP, and UDP protocols), and IPv6 statistics (for the 
+IPv6, ICMPv6, TCP over IPv6, and UDP over IPv6 protocols). Used without 
+parameters, <b>netstat</b> displays active TCP connections.<blockquote>
+	<p><b>netstat</b> [<b>-a</b>] [<b>-i</b>] [ <b>-e</b>] [<b>-n</b>] [<b>-o</b>] 
+	[<b>-p</b> <i>Protocol</i>] [<b>-r</b>] [<b>-s</b>] [<i>Interval</i>]</p>
+</blockquote>
+<p>Where:</p>
+<ul>
+	<li><b>- i&nbsp; : </b>Displays statistics (Solaris). Use -e with Microsoft 
+	implementation of netstat<b>. </b>This parameter can be combined with
+	<b>-s</b>. </li>
+	<li><b>-a : </b>Displays all active TCP connections and the TCP and 
+	UDP ports on which the computer is listening. </li>
+	<li><b>-n : </b>Displays active TCP connectionsbut without DNS resolution 
+	of addresses</li>
+	<li><b>-o : </b>Displays active TCP connections and includes the process 
+	ID (PID) for each connection. You can find the application based on 
+	the PID on the <b>Processes</b> tab in Windows Task Manager. This parameter 
+	can be combined with <b>-a</b>, <b>-n</b>, and <b>-p</b>. </li>
+	<li><b>-p <i>Protocol</i> : </b>Shows connections for the protocol specified 
+	by <i>Protocol</i>. In this case, the <i>Protocol</i> can be <b>tcp</b>,
+	<b>udp</b>, <b>tcpv6</b>, or <b>udpv6</b>. If this parameter is used 
+	with <b>-s</b> to display statistics by protocol, <i>Protocol</i> can 
+	be <b>tcp</b>, <b>udp</b>, <b>icmp</b>, <b>ip</b>, <b>tcpv6</b>, <b>
+	udpv6</b>, <b>icmpv6</b>, or <b>ipv6</b>. </li>
+	<li><b>-s : </b>Displays statistics by protocol. By default, statistics 
+	are shown for the TCP, UDP, ICMP, and IP protocols. If the IPv6 protocol 
+	for Windows XP is installed, statistics are shown for the TCP over IPv6, 
+	UDP over IPv6, ICMPv6, and IPv6 protocols. The <b>-p</b> parameter can 
+	be used to specify a set of protocols. </li>
+	<li><b>-r : </b>Displays the contents of the IP routing table. </li>
+</ul>
+<p><b>Examples: </b></p>
+<ul>
+	<li>To display both the Ethernet statistics , type the following command:
+	<b>netstat -i # Solaris</b></li>
+	<li>To display the statistics for only the TCP and UDP protocols, type 
+	the following command:<b> netstat -s -p tcp udp</b></li>
+	<li>To display active TCP connections and the process IDs every 5 seconds, 
+	type the following command: <b>netstat -o 5</b></li>
+	<li>To display active TCP connections and the process IDs using numerical 
+	form, type the following command:<b> netstat -n -o</b></li>
+</ul>
+<h3>
+<a name="Collision_rates">Collision rates</a></h3>
+<p>A collision is the mechanism used by Ethernet to control access and allocate 
+shared bandwidth among stations that want to transmit at the same time on 
+a shared medium. Because the medium is shared, a mechanism must exist where 
+two stations can detect that they want to transmit at the same time. This 
+mechanism is collision detection. </p>
+<p>Collision rates higher then 5% on 10-Mbps LAN and 10% on 100-Mbps LAN 
+are first indications of the network overload. </p>
+<p>Switches minimize collisions so this is not a problem in modern LAN.
+</p>
+<h3>
+<a name="Input_Output_Errors">Input/Output Errors</a></h3>
+<p>If netstat reports significant number of i/o errors this is usually indication 
+of duplicate IP address on the network. Other possible reasons include faulty 
+cable of RJ45 jack, a faulty port of the network switch or a faulty LAN 
+card in the computer. </p>
+<h2>
+<a name="Ethernet_Addresses">Ethernet Addresses</a></h2>
+<p align="right"><i>This material is partially copied from SA-300-S10 Sun 
+Solaris network administration manual</i></p>
+<p>An Ethernet address is the device’s unique hardware address. An Ethernet 
+address is sometimes referred to as a media access control (MAC) address. 
+An Ethernet address is 48 bits long and is displayed as 12 hexadecimal digits 
+(six groups of two digits) separated by colons. An example of an Ethernet 
+address is&nbsp; 44-45-53-54-42-00</p>
+<ul>
+	<li>The IEEE administers unique Ethernet addresses. IEEE designates 
+	the first three octets as vendor-specific. Most Sun systems begin with 
+	the sequence 08:00:20. The Sun Enterprise 10000 and Sun Fire 15K systems 
+	begin with 00:00:be, and the SunBlade systems begin with 00:03:ba. Sun 
+	assigns the last three octets to the products it manufactures to ensure 
+	that each node on an Ethernet network has a unique Ethernet address.
+	</li>
+</ul>
+<p>The IEEE specification enables the vendor to decide whether to use the 
+host-based addressing approach or the port-based addressing approach. By 
+default, Sun uses host-based addressing on its networks interface cards 
+(NICs). </p>
+<p>The network interface drivers in Sun systems obtain the Ethernet address 
+for the Ethernet interface from a system’s hardware. For example, desktop 
+systems use the address in the nonvolatile random access memory (NVRAM) 
+chip, while some large server systems obtain their address from a special 
+board installed in the system. By default, all interface addresses on a 
+system use just one Ethernet address, either the NVRAM or the special board, 
+even though each Ethernet interface controller has a built-in Ethernet address.
+</p>
+<p>For systems configured to have more than one interface on the same physical 
+subnet, you need a unique Ethernet address that is different from the primary 
+host-based assigned Ethernet address. </p>
+<p>There are three types of addresses: unicast, broadcast, and multicast.
+</p>
+<ul>
+	<li><b>Unicast Addresses.</b> Unicast addresses are used for one-to-one 
+	communication. The system uses a unicast address to send a message to 
+	another system on the local Ethernet network. You can use a system’s 
+	unique Ethernet address as a unicast address. </li>
+	<li><b>Broadcast Addresses.</b> A device uses a broadcast address to 
+	send messages to all systems on the local Ethernet network. The Ethernet 
+	broadcast address is represented in the form of all 1s in binary format 
+	and as <font color="#0000FF">ff:ff:ff:ff:ff:ff </font>in hexadecimal 
+	format. When the Network Interface layer receives an Ethernet frame 
+	with a destination address of all 1s, it passes the address to the next 
+	layer for processing. </li>
+	<li><b>Multicast Addresses. </b>A system uses a multicast address to 
+	send a message to a subset of systems on the local Ethernet. In Ethernet 
+	multicast addressing, the value of the first three octets determines 
+	if the address is multicast. The last three octets determine the specific 
+	multicast’s group identity. </li>
+</ul>
+<h3>
+<a name="Setting_a_Local_Ethernet_Address">Setting a Local Ethernet Address</a>
+</h3>
+<p>In today’s network environments, many systems have multiple interfaces, 
+often on the same subnet or collision domain. Because an Ethernet address 
+targets systems, each interface on the same network or subnet on a multi-interface 
+system must have a unique Ethernet address. Sun network adapters have local 
+Ethernet addresses encoded in their programmable read-only memories (PROMs).
+</p>
+<p>To view the current host-based Ethernet address, perform the command 
+at the ok prompt: </p>
+<blockquote>
+	<p><font face="Fixedsys" color="#0000FF">ok banner<br>
+	Sun Ultra 5/10 UPA/PCI (UltraSPARC-IIi 360MHz), No Keyboard<br>
+	OpenBoot 3.19, 128 MB (50 ns) memory installed, Serial #12153379.<br>
+	Ethernet address 8:0:20:b9:72:23, Host ID: 80b97223.<br>
+	ok</font></p>
+</blockquote>
+<p>To display the Ethernet address assigned to each interface, perform the 
+command: </p>
+<blockquote>
+	<p><font face="Fixedsys" color="#0000FF"># ifconfig -a</font></p>
+	<p><font face="Fixedsys" color="#0000FF"><br>
+	lo0: flags=1000849&lt;UP,LOOPBACK,RUNNING,MULTICAST,IPv4&gt; mtu 8232 index 
+	1 <br>
+	inet 127.0.0.1 netmask ff000000</font></p>
+	<p><font face="Fixedsys" color="#0000FF"><br>
+	hme0: flags=1000843&lt;UP,BROADCAST,RUNNING,MULTICAST,IPv4&gt; mtu 1500 index 
+	2 <br>
+	inet 192.168.30.31 netmask ffffff00 broadcast 192.168.30.255 <br>
+	ether 8:0:20:b9:72:23</font></p>
+	<p><font face="Fixedsys" color="#0000FF"><br>
+	qfe0: flags=1000843&lt;UP,BROADCAST,RUNNING,MULTICAST,IPv4&gt; mtu 1500 index 
+	3 <br>
+	inet 192.168.1.1 netmask ffffff00 broadcast 192.168.1.255 <br>
+	ether 8:0:20:b9:72:23</font></p>
+</blockquote>
+<p>Set the local-mac-address? variable in the system’s electrically erasable 
+programmable read-only memory (EEPROM) to enable the use of port-based Ethernet 
+addresses. </p>
+<p>To view the contents of the EEPROM for the definition of the local-mac-address? 
+variable, perform the command: </p>
+<blockquote>
+	<p><font face="Fixedsys" color="#0000FF"># eeprom local-mac-address?<br>
+	local-mac-address?=false</font></p>
+</blockquote>
+<p>You can set the local MAC address to true, which enables network drivers 
+to use their own port-based addresses after reboot and not the system default 
+host-based addressing by performing the command: </p>
+<blockquote>
+	<p><font color="#0000FF" face="Fixedsys"># eeprom local-mac-address?=true</font></p>
+</blockquote>
+<p>The <b><font color="#0000FF">ifconfig ether </font></b>command can also 
+configure port-based addressing. This might be necessary if the interface 
+card cannot supply its own unique Ethernet address. You can change the interface 
+Ethernet address of 8:0:20:f0:ac:61 from a globally assigned Ethernet address 
+to a locally assigned address of 0a:0:20:f0:ac:61 by changing the seventh 
+bit to 1, and assigning a local unique number to the last 3 bytes. </p>
+<p>To change the Ethernet address, perform the command: </p>
+<blockquote>
+	<p><font color="#0000FF" face="Fixedsys"># ifconfig hme1 ether 0a:0:20:f0:ac:61</font></p>
+</blockquote>
+<p>To verify a change in the Ethernet address, perform the command: </p>
+<blockquote>
+	<p><font color="#0000FF" face="Fixedsys"># ifconfig hme1<br>
+	hme1: flags=1000843&lt;UP,BROADCAST,RUNNING,MULTICAST,IPv4&gt; mtu 1500 index 
+	2 <br>
+	inet 192.168.30.31 netmask ffffff00 broadcast 192.168.30.255 <br>
+	ether a:0:20:f0:ac:61</font></p>
+</blockquote>
+<p>This change of the Ethernet address is effective until you reboot the 
+system. To make the change permanent, modify the /etc/rc2.d/S72inetsvc script 
+by using the<b><font color="#0000FF"> ifconfig </font></b>command with the 
+correct Ethernet address. </p>
+<h2>
+<a name="Ethernet_frame_format">Ethernet frame format</a></h2>
+<p align="right"><i>This material copied from
+<a target="_blank" href="http://publib.boulder.ibm.com/infocenter/iseries/v5r3/index.jsp?topic=/rzajy/rzajytypesofethernetframessent.htm">
+IBM Redbook</a></i></p>
+<p>Know how to interpret the data contained in your Ethernet frames by understanding 
+the frame formatting.</p>
+<p>While tracing LAN communications, you might need to look at the transmitted 
+frames. To understand the data that is contained in the frame, you must 
+know how it is formatted. The figures below show the frame format of two 
+Ethernet standards: IEEE 802.3 and Ethernet version 2. </p>
+<p>The Frame Check Sequence (FCS) is a part of the frame put in place to 
+verify that the information each frame contains is not damaged during transmission. 
+If a frame is corrupted during transmission, the FCS on the frame will not 
+match with the recipient's calculated FCS. Any frames that do not match 
+the calculated FCS will be discarded.</p>
+<h4>
+<a name="IEEE_802.3_frame_format_">IEEE 802.3 frame format</a></h4>
+<table class="singleborder" cellspacing="0" cellpadding="4" rules="all" border="1" frame="border" id="table1" bgcolor="#FFFFCC">
+	<tbody><tr>
+		<td valign="top" align="middle" width="13.99%">Starting Delimiter 
+		(1 byte)</td>
+		<td valign="top" align="middle" width="16.41%">Destination Address 
+		(6 bytes)</td>
+		<td valign="top" align="middle" width="13.43%">Source Address (6 
+		bytes)</td>
+		<td valign="top" align="middle" width="11.75%">Length (2 bytes)</td>
+		<td valign="top" align="middle" width="24.62%">LLC header and Information 
+		field (46 - 1500 bytes)</td>
+		<td valign="top" align="middle" width="19.77%">Frame Check Sequence 
+		(4 bytes)</td>
+	</tr>
+</tbody></table>
+<h4>
+<a name="Ethernet_version_2_frame_format_">Ethernet version 2 frame format</a></h4>
+<table class="singleborder" cellspacing="0" cellpadding="4" rules="all" border="1" frame="border" id="table2" bgcolor="#FFFFCC">
+	<tbody><tr>
+		<td valign="top" align="middle" width="14.47%">Starting Delimiter 
+		(1 byte)</td>
+		<td valign="top" align="middle" width="16.91%">Destination Address 
+		(6 bytes)</td>
+		<td valign="top" align="middle" width="14.47%">Source Address (6 
+		bytes)</td>
+		<td valign="top" align="middle" width="11.65%">Type (2 bytes)</td>
+		<td valign="top" align="middle" width="22.55%">Information field 
+		(46 - 1500 bytes)</td>
+		<td valign="top" align="middle" width="19.92%">Frame Check Sequence 
+		(4 bytes)</td>
+	</tr>
+</tbody></table>
+<p>Ethernet version 2 supports SNA by placing the IEEE 802.2 LLC header 
+and data into the information field. It also puts value X'80D5' into the 
+Type field. This shows the frame format.</p>
+<table class="singleborder" cellspacing="0" cellpadding="4" rules="all" border="1" frame="border" id="table3" bgcolor="#FFFFCC">
+	<tbody><tr>
+		<td valign="top" align="middle" width="13.84%">Starting Delimiter</td>
+		<td valign="top" align="middle" width="16.76%">Destination Address</td>
+		<td valign="top" align="middle" width="14.61%">Source Address</td>
+		<td valign="top" align="middle" width="12.08%">Type (80D5)</td>
+		<td valign="top" align="left" width="22.8%">Information field (Length, 
+		Padding, LLC header, Data)</td>
+		<td valign="top" align="middle" width="19.88%">Frame Check Sequence</td>
+	</tr>
+</tbody></table>
+<h2>
+<a name="Maximum_Transfer_Units">Maximum Transfer Units</a></h2>
+<p>The maximum transfer unit (MTU) is the largest amount of data that can 
+be transferred across a physical network. The Ethernet MTU is hardware&nbsp; 
+specific. For a physical Ethernet interface, the MTU is 1500 bytes, while 
+the MTU is 8232 bytes for a loopback interface. The loopback interface is 
+a pseudo device that communicate or loops back to the host itself. </p>
+<h2>
+<a name="Ethernet_Frame_Errors">Ethernet Frame Errors</a>
+</h2>
+<p>Ethernet frames can be significantly damaged when they traverse a network.
+<i><b>When a host receives a frame, the Ethernet interface performs integrity 
+checking to verify Ethernet frame validity. </b></i>Some of these error 
+conditions are: </p>
+<ul>
+	<li><b>Runts </b>Packets that are less than 64 bytes are too short and 
+	are discarded. Runts are usually caused by collisions. These can be 
+	formed by poor wiring and electrical interference. </li>
+	<li><b>Jabbers </b>Packets that are greater than 1500 bytes (MTU) are 
+	too long and are discarded. These indicate that a device has electrical 
+	problems. </li>
+	<li><b>Long </b>A frame that is between 1518 and 6000 bytes long, often 
+	because of faulty hardware or software on the sending system. </li>
+	<li><b>Giant </b>A frame that is more than 6000 bytes long, often because 
+	of faulty hardware or software on the sending system. </li>
+	<li><b>Bad CRC</b> If the received packet fails the CRC, the packet 
+	is corrupted and discarded. This is also known as a frame check sequence 
+	(FCS) error. </li>
+</ul>
+<p>Our scenario assumes a second NIC is being installed into a previously 
+configured networked system. Before installing the new hardware, save the 
+current system configuration by running <code>prtconf -vD</code>. The output 
+of this command can be extensive on larger systems, so it's best to direct 
+the output of <code>prtconf</code> to a file.</p>
+<p><b>After physically installing the new hardware, boot the system with 
+the </b><code>-r</code><b> option from the OK prompt. </b>This will have 
+the system scan for new hardware and build the device driver directories 
+accordingly. When that has been completed, run <code>prtconf -vD</code> 
+again and compare its content to the previous execution's results. If a 
+new device doesn't show up, consult the instruction manual for that device 
+as it may require a new driver to be installed or some other special action 
+specific to that hardware. <br>
+</p>
+<p>The name of a NIC is the driver abbreviation with the instance number 
+(a consecutive number starting from 0 counting each device that uses that 
+driver). If you cannot tell which driver runs your hardware, consult the 
+NIC card's manual.</p>
+<p>The results of an <code>ifconfig -a</code> show us the current state 
+of the network devices:</p>
+<pre>lo0: flags=1000849<up ,loopback,running,multicast,ipv4=""> mtu 8232 index 1
+        inet 127.0.0.1 netmask ff000000 
+hme0: flags=1000843<up ,broadcast,running,multicast,ipv4=""> mtu 1500 index 2
+        inet 192.168.1.100 netmask ffffff00 broadcast 192.168.1.255
+        ether <mac address="">
+</mac></up></up></pre>
+<p>The built in NIC (instance #0) had previously been configured, and
+<code>lo0</code> is an instance of the local loopback address. Since
+<code>hme1</code> doesn't show up, it means it has yet to be initialized 
+and configured.</p>
+<h2>
+<a name="IP_Configuration">IP Configuration</a></h2>
+<h3>
+<b>Persistent IPv4 Configuration</b></h3>
+<p>In order to have the system configure our NIC at boot, the first step 
+is to get an IP address and subnet mask. In our case, we are going to put 
+this second NIC into a different IP range than the original NIC. Our first 
+NIC is in the 192.168.1.x network, so we will put the new NIC into the 192.168.2.x 
+network. Both of these networks have a subnet mask of 255.255.255.0. Note: 
+Always make sure the assigned IP is not already taken up by another machine; 
+to do so, use <code>ping</code> from a machine already configured in that 
+network.</p>
+<p>Next we add a line to the <code>/etc/hosts</code> file for our new card:</p>
+<pre>192.168.2.100		host2.mydomain.com		host2
+</pre>
+<p>Now, we create a file in <code>/etc</code> that is named <code>hostname</code>. 
+For example, our first NIC's file is <code>/etc/hostname.hme0</code>. Our 
+new device, <code>hme1</code>, will need the file <code>/etc/hostname.hme1</code>. 
+In this file, we will put the name associated with the IP (as found in the
+<code>/etc/hosts</code> file). It should be the first name in the <code>
+/etc/hosts</code> file. In our scenario, <code>/etc/hostname.hme1</code> 
+should contain:</p>
+<pre>host2.mydomain.com</pre>
+<p>Then we edit the <code>/etc/netmasks</code> file for our new network:</p>
+<pre>192.168.2.0	255.255.255.0</pre>
+<p>Reboot the system, and your network card has been configured for the 
+new network with the proper subnet mask. You can check it by running an
+<code>ifconfig -a</code> again:</p>
+<pre>lo0: flags=1000849<up ,loopback,running,multicast,ipv4=""> mtu 8232 index 1
+        inet 127.0.0.1 netmask ff000000 
+hme0: flags=1000843<up ,broadcast,running,multicast,ipv4=""> mtu 1500 index 2
+        inet 192.168.1.100 netmask ffffff00 broadcast 192.168.1.255
+        ether <mac address="">
+hme1: flags=1000843 mtu 1500 index 3
+        inet 192.168.2.100 netmask ffffff00 broadcast 192.168.2.255
+        ether 
+</mac></up></up></pre>
+<h3>
+<b>Non-Persistence IPv4 Configuration</b></h3>
+<p>To configure the NIC without having to reboot (having previously installed 
+the hardware), you first need to initialize or plumb the network card:</p>
+<pre>	ifconfig hme1 plumb</pre>
+<p>Then you configure the device:</p>
+<pre>	ifconfig hme1 192.168.2.100 netmask 255.255.255.0</pre>
+<p>Now, you just bring the NIC online. </p>
+<pre>	ifconfig hme1 up</pre>
+<p>Your network card is now up and running. You will still need to make 
+the preceding file modifications or your card will not be configured upon 
+reboot.</p>
+<h3>
+<b>IPv6 Configuration</b></h3>
+<p>Almost everything with IPv6 is designed to be automatic. All that is 
+needed is to tell the system that IPv6 is to be used, and it will handle 
+the rest. To configure it at boot (persistent), execute the following command:</p>
+<pre>	touch /etc/hostname6<instance>.<i>interface</i> </instance></pre>
+<p>To enable IPv6 at the command line (which will be lost when the system 
+reboots), run the following commands:</p>
+<pre>	ifconfig <instance> inet6 plumb
+	ifconfig  inet6 up</instance></pre>
+<h2 align="center">
+<b><a name="Troubleshooting">Troubleshooting</a></b></h2>
+<p>The following is a collection of tools that might be useful for troubleshooting 
+of&nbsp; networking problems:</p>
+<p>&nbsp;<b><code>/bin/netstat:</code></b> Many netstat options are useful 
+in troubleshooting. Some examples</p>
+<ul>
+	<li><font face="Fixedsys" color="#0000FF">netstat -i # </font>General 
+	information with statistics on each NIC. Often used in homemade monitoring 
+	scripts. </li>
+	<li><code>netstat -a</code>. # Port/Socket information can be had with 
+	a
+	<blockquote>
+		<p>&nbsp;This is a good way to tell what remote systems are attaching 
+		to what ports, in case you have network daemons that are locking 
+		up or if you are wondering what computers are browsing your web 
+		server. </p>
+	</blockquote>
+	</li>
+	<li><code>netstat -rn # </code>most popular way to check current system 
+	routing tables with .
+	<blockquote>
+		<p>The <code>n</code> option should almost always be used when troubleshooting 
+		network issues, since DNS lookups for IP-to-Hostname lookups are 
+		not local services. The entry to double check is your "default" 
+		destination, since this is the system's default router or gateway.
+		</p>
+	</blockquote>
+	</li>
+</ul>
+<p><b><code>/usr/sbin/snoop:</code></b> Root can run <b>
+<a href="http://www.softpanorama.org/Net/Netutils/Sniffers/snoop.shtml">snoop</a></b> to capture network 
+traffic and display packet content on the screen. Snoop is useful for finding 
+malfunctioning NICs flooding the network or for ensuring that DHCP is working 
+properly. Before you configure a NIC, you can run snoop to verify that you 
+are seeing packets flowing through your NIC that is, the cable/NIC/switch 
+port are working), and the IP addresses of those packets are consistent 
+with what is expected for the NIC's new network. Some examples: </p>
+<ul>
+	<li><font face="Fixedsys" color="#0000FF">snoop -d hme0 broadcast</font> 
+	#only broadcast frames in summary mode </li>
+	<li><font face="Fixedsys" color="#0000FF">snoop -d qfe0 -V 192.168.1.2
+	</font></li>
+	<li><font face="Fixedsys" color="#0000FF">snoop -d qfe0 -o /tmp/snooper 
+	192.168.1.2 # capture to a file</font></li>
+	<li><font face="Fixedsys" color="#0000FF">snoop -d qfe0 -o /tmp/snooper 
+	broadcast # same with broadcast</font></li>
+	<li><font color="#0000FF" face="Fixedsys">snoop -i /tmp/snooper -V | 
+	egrep -iv 'nfs|ack|contin|ftp|ip'</font></li>
+</ul>
+<p><b><code>/sbin/ifconfig:</code></b>&nbsp; An <code>ifconfig -a</code> 
+will give you information about all NIC, including IP address (inet), subnet 
+mask (netmask), and if run as root, the MAC address (ether). Please note 
+that only root gets full information from this command. </p>
+<p><b><code>/usr/sbin/arp:</code></b> <code>arp</code> allows you to view 
+that table to see what kind of information your computer has cached, as 
+well as to input or delete entries, in case of problems. When having DNS 
+issues, an <code>arp</code> command with the <code>-an</code> option will 
+list the entire table without resolving IP address to host names. <code>
+arp</code> is one way to get the MAC address of the NIC answering for a 
+host. </p>
+<h2 align="center">
+<a name="Recommended_Links">Recommended Links</a></h2>
+<table border="0" width="100%" height="220">
+<tbody><tr>
+<td width="100%" align="center">	
+
+<h3>Google matched content</h3>
+<script async="" src="./Ethernet Protocol_files/adsbygoogle.js"></script>
+<ins class="adsbygoogle" style="display: block; height: 600px;" data-ad-format="autorelaxed" data-ad-client="ca-pub-4031247137266443" data-ad-slot="1626659014" data-adsbygoogle-status="done"><ins id="aswift_2_expand" style="display:inline-table;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:1200px;background-color:transparent;"><ins id="aswift_2_anchor" style="display:block;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:1200px;background-color:transparent;"><iframe width="1200" height="600" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_2" name="aswift_2" style="left:0;position:absolute;top:0;border:0px;width:1200px;height:600px;" __idm_frm__="289" src="./Ethernet Protocol_files/saved_resource(2).html"></iframe></ins></ins></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</td>
+</tr></tbody></table>
+<h3>Softpanorama Recommended</h3>
+
+<h3><a name="Top_articles">Top articles</a></h3>
+<h3><a name="Sites">Sites</a></h3>
+
+<ul>
+	<li>
+	<a target="_blank" href="http://www.cisco.com/univercd/cc/td/doc/cisintwk/ito_doc/ethernet.htm">
+	CISCO Ethernet page</a></li>
+	<li><a target="_blank" href="http://en.wikipedia.org/wiki/Ethernet">
+	Ethernet - Wikipedia, the free encyclopedia</a></li>
+	<li>
+	<a target="_blank" href="http://www.ethermanage.com/ethernet/ethernet.html">
+	Charles Spurgeon's Ethernet (IEEE 802.3) Web Site</a> Charles is the 
+	author of O'Reilly book on the subject.<ul>
+		<li>
+		<a target="_blank" href="http://www.ethermanage.com/ethernet/edg/edg-toc.html">
+		Table of Contents</a></li>
+		<li>
+		<a target="_blank" href="http://www.ethermanage.com/ethernet/ch13-ora/ch13.html">
+		Chapter 13: Multi-Segment Configuration Guidelines </a>&nbsp;- online 
+		chapter&nbsp; </li>
+		<li>
+		<a target="_blank" href="http://www.oreilly.com/catalog/enettdg/errata/index.html">
+		Errata: List of errors found in Ethernet: The Definitive Guide</a></li>
+		<li>
+		<a target="_blank" href="http://www.ethermanage.com/ethernet/edg/other-books.html">
+		Other Books on Ethernet</a> </li>
+	</ul>
+	</li>
+	<li>
+	<a target="_blank" href="http://computer.howstuffworks.com/ethernet.htm">
+	Howstuffworks How Ethernet Works</a></li>
+	<li>
+	<a target="_blank" href="http://burks.bton.ac.uk/burks/pcinfo/hardware/ethernet/ethernet.htm">
+	Ethernet</a></li>
+	<li>
+	<a target="_blank" href="http://wwwhost.ots.utexas.edu/ethernet/">Ethernet 
+	[Charles Spurgeon]</a>&nbsp; - excellent info on 10 and 100-Mbps Ethernet 
+	(IEEE 802.3) </li>
+	<li>
+	<a target="_blank" href="http://pclt.cis.yale.edu/pclt/COMM/ETHER.HTM">
+	PC Lube and Tune Ethernet Page</a> useful document dated <i>12 Apr 1995
+	</i></li>
+	<li>
+	<a target="_blank" href="http://www.cs.ucr.edu/blam/report/tableofconts.html">
+	Ether BLAM - Binary Logarithmic Arbitration</a> - an enhanced backoff 
+	algorithm that is backwards compatible with existing CSMA/CD Ethernet 
+	(802.3w). </li>
+	<li>
+	<a target="_blank" href="http://pclt.cis.yale.edu/pclt/comm/ether.htm">
+	Ethernet [H. Gilbert]</a> - the most common choice for high speed communication 
+	to the desktop </li>
+	<li><a target="_blank" href="http://www.erols.com/terry3">Networks at 
+	Home</a> - how to install an local area network. </li>
+	<li>
+	<a target="_blank" href="http://wwwhost.ots.utexas.edu/ethernet/descript-troubleshoot.html">
+	Troubleshooting Numbers for Ethernet</a> - maintained by Charles Spurgeon.
+	</li>
+</ul>
+<h2>
+FAQs</h2>
+<ul>
+	<li>
+	<a target="_blank" href="http://web.syr.edu/~jmwobus/comfaqs/faq-comp.dcom.cabling">
+	FAQ - comp.dcom.cabling</a> </li>
+	<li>
+	<a target="_blank" href="http://web.syr.edu/~jmwobus/comfaqs/faq-comp.dcom.lans.ethernet">
+	FAQ - comp.dcom.lans.ethernet</a></li>
+</ul>
+<h2>
+<a name="Reference">Reference</a></h2>
+<p><a target="_blank" href="http://www.cavebear.com/CaveBear/Ethernet/">
+Ethernet Codes</a> - Michael A Patton's list of IEEE OUIs</p>
+<p><a target="_blank" href="http://standards.ieee.org/db/oui/">OUI and Company 
+ID Assignments</a> - used to generate Universal LAN MAC addresses. </p>
+<p>&nbsp;</p>
+<h2>
+<a name="Quiz">Quiz</a></h2>
+<p class="MsoPlainText"><span style="font-size: 11pt"><b>Q1</b></span><b><span style="font-size: 11.0pt; font-family: Bookman">. 
+Fast Ethernet : Max distance for UTP and Fiber ?</span></b></p>
+<blockquote>
+	<p class="MsoPlainText">
+	<span style="font-size: 11.0pt; font-family: Bookman; font-weight: 700">
+	a. 200m, 1000m</span></p>
+	<p class="MsoPlainText">
+	<span style="font-size: 11.0pt; font-family: Bookman; font-weight: 700">
+	b. 1000m, 2000m</span></p>
+	<p class="MsoPlainText">
+	<span style="font-size: 11.0pt; font-family: Bookman; font-weight: 700">
+	c. 100m, 1000m</span></p>
+	<p class="MsoPlainText">
+	<span style="font-size: 11.0pt; font-family: Bookman; font-weight: 700">
+	d. 100m, 2000m</span></p>
+</blockquote>
+<p><b>A: </b><span style="font-size: 11.0pt; font-family: Bookman">&nbsp;D</span></p>
+<p class="MsoPlainText"><span style="font-size: 11pt"><b>Q2</b></span><b><span style="font-size: 11.0pt; font-family: Bookman">. 
+How long is MAC address (bytes) ? How may bytes identifies the vendor?</span></b></p>
+<blockquote>
+	<p class="MsoPlainText">
+	<span style="font-size: 11.0pt; font-family: Bookman; font-weight: 700">
+	a. 8,2</span></p>
+	<p class="MsoPlainText">
+	<span style="font-size: 11.0pt; font-family: Bookman; font-weight: 700">
+	b. 6,3</span></p>
+	<p class="MsoPlainText">
+	<span style="font-size: 11.0pt; font-family: Bookman; font-weight: 700">
+	c. 8,4</span></p>
+	<p class="MsoPlainText">
+	<span style="font-size: 11.0pt; font-family: Bookman; font-weight: 700">
+	d. 6,2</span><span style="font-size: 11.0pt; font-family: Bookman">
+	</span></p>
+</blockquote>
+<p class="MsoPlainText"><b><span style="font-size: 11pt">A</span></b><span style="font-size: 11.0pt; font-family: Bookman"><b>:</b> 
+B</span></p>
+<p class="MsoPlainText"><span style="font-size: 11pt"><b>Q3</b></span><b><span style="font-size: 11.0pt; font-family: Bookman">. 
+What is a "preamble" in IEEE 802.3 frame?</span></b></p>
+<blockquote>
+	<p class="MsoPlainText">
+	<span style="font-size: 11.0pt; font-family: Bookman; font-weight: 700">
+	a. an indication of the end of a frame</span></p>
+	<p class="MsoPlainText">
+	<span style="font-size: 11.0pt; font-family: Bookman; font-weight: 700">
+	b. an indication of the start of a new frame</span></p>
+	<p class="MsoPlainText">
+	<span style="font-size: 11.0pt; font-family: Bookman; font-weight: 700">
+	c. an indication of congestion</span></p>
+	<p class="MsoPlainText">
+	<span style="font-size: 11.0pt; font-family: Bookman; font-weight: 700">
+	d. an indication of a corrupted frame</span></p>
+</blockquote>
+<p class="MsoPlainText">
+<span style="font-size: 11.0pt; font-family: Bookman">A: B</span></p>
+<p class="MsoPlainText"><b>
+<span style="font-size: 11.0pt; font-family: Bookman">Q4. What does a "preamble" 
+consist of ?</span></b></p>
+<blockquote>
+	<p class="MsoPlainText">
+	<span style="font-size: 11.0pt; font-family: Bookman">a. all 0s</span></p>
+	<p class="MsoPlainText">
+	<span style="font-size: 11.0pt; font-family: Bookman">b. all 1s</span></p>
+	<p class="MsoPlainText">
+	<span style="font-size: 11.0pt; font-family: Bookman">c. a 1 in the 
+	beginning and rest 0s</span></p>
+	<p class="MsoPlainText">
+	<span style="font-size: 11.0pt; font-family: Bookman">d. alternating 
+	0s and 1s</span></p>
+</blockquote>
+<p class="MsoPlainText"><b><span style="font-size: 11pt">A</span></b><span style="font-size: 11.0pt; font-family: Bookman"><b>:
+</b>D</span></p>
+<p><b>Q5.&nbsp; The two most popular carrier sensing schemes are Token passing 
+and ""_______""".</b></p>
+<p><span style="font-size: 11.0pt; font-family: Bookman Old Style">A: CSMA/CD&nbsp; 
+(Carrier-Sense Multiple Access with Collision Detection)</span></p>
+<p><b>Q6. This type of access method is generally used by Ethernet to regulate 
+network traffic on a main cable segment.</b></p>
+<p><span style="font-size: 11.0pt; font-family: Bookman Old Style">A: CSMA/CD</span></p>
+<p class="MsoBodyText"><b>Q7. Which network conforms to IEEE 802.3 specs 
+and is currently is considered to be "standard Ethernet" ?</b></p>
+<p><span style="font-size: 11.0pt; font-family: Bookman Old Style"><b>A:</b> 
+100BaseTX</span></p>
+<p><b><span style="font-family: Bookman Old Style; font-size: 11pt">Q8:</span></b><font face="Times New Roman" size="3"><b> 
+A frame greater than the MTU is known as:</b></font></p><font face="Times New Roman" size="3">
+<blockquote>
+	<p align="LEFT"><b>a. runt</b></p>
+	<p align="LEFT"><b>b. overhead</b></p>
+	<p align="LEFT"><b>c. jabber</b></p>
+	<p align="LEFT"><b>d. fragment</b></p>
+	<b>
+</b></blockquote><b>
+</b></font><p><font face="Times New Roman" size="3"><b>A</b>: c</font><span style="font-size: 11.0pt; font-family: Bookman Old Style">&nbsp;
+</span></p>
+<p><span style="font-size: 11pt"><b>
+<span style="font-family: Bookman Old Style">Q</span></b></span><b><span style="font-size: 11.0pt; font-family: Bookman Old Style">9. 
+""______" is a device which&nbsp; provide communication between the computer 
+and the LAN cable and is directly connected to the vampire tap to which 
+the cable is attached.</span></b></p>
+<p><span style="font-size: 11.0pt; font-family: Bookman Old Style"><b>A:
+</b>Transceiver</span></p>
+<h2><hr></h2>
+<hr noshade="" color="#FF0000" size="5">
+
+<h2><a name="Etc">Etc</a></h2>
+
+<p><b>Society</b></p>
+<blockquote>
+
+<p><b><a href="http://www.softpanorama.org/Skeptics/groupthink.shtml"><font size="2">Groupthink</font></a><font size="2"> :
+<a href="http://www.softpanorama.org/Skeptics/Political_skeptic/Two_party_system_as_poliarchy/index.shtml">Two Party System 
+as Polyarchy</a> : 
+<a href="http://www.softpanorama.org/Skeptics/Financial_skeptic/Casino_capitalism/Corruption_of_regulators/index.shtml">
+Corruption of Regulators</a> :
+<a href="http://www.softpanorama.org/Social/Bureaucracy/index.shtml">Bureaucracies</a> :
+<a href="http://www.softpanorama.org/Social/Toxic_managers/Micromanagers/understanding_micromanagers.shtml">Understanding Micromanagers 
+and Control Freaks</a> : <a href="http://www.softpanorama.org/Social/Toxic_managers/index.shtml">Toxic Managers</a> :&nbsp;&nbsp;
+<a href="http://www.softpanorama.org/Skeptics/Pseudoscience/harvard_mafia.shtml">Harvard Mafia</a> :
+<a href="http://www.softpanorama.org/Social/Toxic_managers/Communication/diplomatic_communication.shtml">Diplomatic Communication</a> 
+: <a href="http://www.softpanorama.org/Social/Toxic_managers/surviving_a_bad_performance_review.shtml">Surviving a Bad Performance 
+Review</a> : <a href="http://www.softpanorama.org/Skeptics/Financial_skeptic/index.shtml">Insufficient Retirement Funds as 
+Immanent Problem of Neoliberal Regime</a> : <a href="http://www.softpanorama.org/Skeptics/index.shtml">PseudoScience</a> :
+<a href="http://www.softpanorama.org/Skeptics/Political_skeptic/index.shtml">Who Rules America</a> :
+<a href="http://www.softpanorama.org/Skeptics/Political_skeptic/Neoliberalism/index.shtml">Neoliberalism
+</a>&nbsp;: <a href="http://www.softpanorama.org/Skeptics/Political_skeptic/Elite_theory/iron_law_of_oligarchy.shtml">The Iron 
+Law of Oligarchy</a> : </font><a href="http://www.softpanorama.org/Skeptics/Political_skeptic/libertarianism.shtml">
+<font size="2">Libertarian Philosophy</font></a></b></p>
+</blockquote>
+
+<p><b>Quotes</b></p>
+<blockquote>
+
+<p><b><font size="2" face="Arial"> 
+<a href="http://www.softpanorama.org/Skeptics/Quotes/war_and_peace_quotes.shtml">War and Peace</a> </font>
+<font face="Arial"><font size="2">: <a href="http://www.softpanorama.org/Skeptics/Quotes/financial_quotes.shtml">Skeptical 
+Finance</a></font><font size="2"> : <a href="http://www.softpanorama.org/Skeptics/Quotes/famous_galbraith_quotes.shtml">John 
+Kenneth Galbraith</a> :<a href="http://www.softpanorama.org/Skeptics/Quotes/talleyrand_quotes.shtml">Talleyrand</a> :
+<a href="http://www.softpanorama.org/Skeptics/Quotes/oscar_wilde_quotes.shtml">Oscar Wilde</a> :
+<a href="http://www.softpanorama.org/Skeptics/Quotes/bismarck_quotes.shtml">Otto Von Bismarck</a> :
+<a href="http://www.softpanorama.org/Skeptics/Quotes/keynes_quotes.shtml">Keynes</a> :
+<a href="http://www.softpanorama.org/Skeptics/Quotes/george_carlin.shtml">George Carlin</a> :
+<a href="http://www.softpanorama.org/Skeptics/skeptical_quotes.shtml">Skeptics</a> :
+<a href="http://www.softpanorama.org/Skeptics/Quotes/propaganda.shtml">Propaganda</a>&nbsp; : <a href="http://www.softpanorama.org/SE/quotes.shtml">SE 
+quotes</a> : <a href="http://www.softpanorama.org/Lang/quotes.shtml">Language Design and Programming Quotes</a> :
+<a href="http://www.softpanorama.org/Bulletin/quotes.shtml">Random IT-related quotes</a> :&nbsp;
+<a href="http://www.softpanorama.org/Skeptics/Quotes/somerset_maugham.shtml">Somerset Maugham</a> :
+<a href="http://www.softpanorama.org/Skeptics/Quotes/marcus_aurelius.shtml">Marcus Aurelius</a> :
+<a href="http://www.softpanorama.org/Skeptics/Quotes/kurt_vonnegut_quotes.shtml">Kurt Vonnegut</a> :
+<a href="http://www.softpanorama.org/Skeptics/Quotes/eric_hoffer.shtml">Eric Hoffer</a> :
+<a href="http://www.softpanorama.org/Skeptics/Quotes/churchill_quotes.shtml">Winston Churchill</a> :
+<a href="http://www.softpanorama.org/Skeptics/Quotes/napoleon_quotes.shtml">Napoleon Bonaparte</a> :
+<a href="http://www.softpanorama.org/Skeptics/Quotes/ambrose_bierce.shtml">Ambrose Bierce</a> :&nbsp;
+<a href="http://www.softpanorama.org/Skeptics/Quotes/bernard_shaw.shtml">Bernard Shaw</a> : </font>
+<a href="http://www.softpanorama.org/Skeptics/Quotes/mark_twain_quotes.shtml"><font size="2">Mark Twain Quotes</font></a></font></b></p>
+</blockquote>
+
+<p><b>Bulletin:</b></p>
+<blockquote>
+
+<p><b><font face="Arial"><a href="http://softpanorama.biz/Bulletin/Sp2013_v25/bulletin25_12.shtml">
+<font size="2">Vol 25, No.12 (December, 2013) Rational Fools vs. Efficient Crooks The efficient 
+markets hypothesis</font></a><font size="2"> :
+<a href="http://softpanorama.biz/Skeptics/Political_skeptic/Bulletin/political_skeptic2013.shtml">
+Political Skeptic Bulletin, 2013</a> :
+<a href="http://softpanorama.biz/Skeptics/Financial_skeptic/Unemployment/Bulletin/unempoyment2010.shtml">
+Unemployment Bulletin, 2010</a> :
+<a href="http://softpanorama.biz/Bulletin/Sp2011_v23/bulletin23_10.shtml">&nbsp;Vol 23, No.10 
+(October, 2011) An observation about corporate security departments</a> :
+<a href="http://softpanorama.biz/Skeptics/Political_skeptic/Fifth_column/Color_revolutions/Euromaydan/Bulletin/euromaydan14_06.shtml">
+Slightly Skeptical Euromaydan Chronicles, June 2014</a> :
+<a href="http://softpanorama.biz/Skeptics/Financial_skeptic/Casino_capitalism/12_Apostols_of_deregulation/Greenspan/Bulletin/greenspan_bulletin2008.shtml">
+Greenspan legacy bulletin, 2008</a> :
+<a href="http://www.softpanorama.org/Bulletin/Sp2013_v25/bulletin25_10.shtml">Vol 25, No.10 (October, 2013) Cryptolocker Trojan 
+(Win32/Crilock.A)</a> :
+<a href="http://www.softpanorama.org/Bulletin/Sp2013_v25/bulletin25_08.shtml">Vol 25, No.08 (August, 2013) Cloud providers 
+as intelligence collection hubs</a> : 
+<a href="http://softpanorama.biz/Skeptics/Financial_skeptic/Humor/Bulletin/financial_humor2010.shtml">
+Financial Humor Bulletin, 2010</a> :
+<a href="http://softpanorama.biz/Skeptics/Financial_skeptic/Inequality/Bulletin/inequality2009.shtml">
+Inequality Bulletin, 2009</a> :
+<a href="http://softpanorama.biz/Skeptics/Financial_skeptic/Humor/Bulletin/financial_humor2008.shtml">
+Financial Humor Bulletin, 2008</a> :
+<a href="http://softpanorama.biz/Copyright/Bulletin/copyleft_problems2004.shtml">Copyleft Problems 
+Bulletin, 2004</a> :
+<a href="http://softpanorama.biz/Skeptics/Financial_skeptic/Humor/Bulletin/financial_humor2011.shtml">
+Financial Humor Bulletin, 2011</a> :
+<a href="http://softpanorama.biz/Skeptics/Financial_skeptic/Energy/Bulletin/energy_bulletin2010.shtml">
+Energy Bulletin, 2010</a> : <a href="http://softpanorama.biz/Malware/Bulletin/malware2010.shtml">
+Malware Protection Bulletin, 2010</a> : <a href="http://www.softpanorama.org/Bulletin/Sp2014_v26/bulletin26_01.shtml">Vol 26, 
+No.1 (January, 2013) Object-Oriented Cult</a> :
+<a href="http://softpanorama.biz/Skeptics/Political_skeptic/Bulletin/political_skeptic2011.shtml">
+Political Skeptic Bulletin, 2011</a> :
+<a href="http://www.softpanorama.org/Bulletin/Sp2011_v23/bulletin23_11.shtml">Vol 23, No.11 (November, 2011) Softpanorama classification 
+of sysadmin horror stories</a> : <a href="http://www.softpanorama.org/Bulletin/Sp2013_v25/bulletin25_05.shtml">Vol 25, No.05 
+(May, 2013) Corporate bullshit as a communication method</a>&nbsp; : </font><a href="http://www.softpanorama.org/Bulletin/Sp2013_v25/bulletin25_06.shtml">
+<font size="2">Vol 25, No.06 (June, 2013) A Note on the Relationship of Brooks Law and Conway Law</font></a></font></b></p>
+</blockquote>
+
+<p align="left"><b>History:</b></p>
+<blockquote>
+
+<p><b><font face="Arial"><a href="http://www.softpanorama.org/History/index.shtml"><font size="2">Fifty glorious years (1950-2000): 
+the triumph of the US computer engineering</font></a><font size="2"> :
+<a href="http://www.softpanorama.org/People/Knuth/index.shtml">Donald Knuth</a> : <a href="http://www.softpanorama.org/People/Knuth/taocp.shtml">TAoCP 
+and its Influence of Computer Science</a> : <a href="http://www.softpanorama.org/People/Stallman/index.shtml">Richard Stallman</a> 
+: <a href="http://www.softpanorama.org/People/Torvalds/index.shtml">Linus Torvalds</a>&nbsp; :
+<a href="http://www.softpanorama.org/People/Wall/index.shtml">Larry Wall </a>&nbsp;:
+<a href="http://www.softpanorama.org/People/Ousterhout/index.shtml">John K. Ousterhout</a> : <a href="http://www.softpanorama.org/History/ctss.shtml">
+CTSS</a> : <a href="http://www.softpanorama.org/History/multix.shtml">Multix OS</a> <a href="http://www.softpanorama.org/History/Unix/index.shtml">Unix 
+History</a> : <a href="http://www.softpanorama.org/People/Shell_giants/introduction.shtml">Unix shell history</a> :
+<a href="http://www.softpanorama.org/Editors/Vimorama/history.shtml">VI editor</a> :
+<a href="http://www.softpanorama.org/Scripting/Piporama/history.shtml">History of pipes concept</a> :
+<a href="http://www.softpanorama.org/Solaris/solaris_history.shtml">Solaris</a> : <a href="http://www.softpanorama.org/History/dos_history.shtml">MS DOS</a> 
+:&nbsp; <a href="http://www.softpanorama.org/History/lang_history.shtml">Programming Languages History</a> :
+<a href="http://www.softpanorama.org/Lang/pl1.shtml">PL/1</a> : <a href="http://www.softpanorama.org/Lang/simula67.shtml">Simula 67</a> :
+<a href="http://www.softpanorama.org/Lang/Cilorama/history.shtml">C</a> :
+<a href="http://www.softpanorama.org/People/Stallman/history_of_gcc_development.shtml">History of GCC development</a> :&nbsp;
+<a href="http://www.softpanorama.org/People/Scripting_giants/scripting_languages_as_vhll.shtml">Scripting Languages</a> :
+<a href="http://www.softpanorama.org/Scripting/Perlbook/Ch01/perl_history.shtml">Perl history&nbsp; </a>&nbsp;:
+<a href="http://www.softpanorama.org/History/os_history.shtml">OS History</a> : <a href="http://www.softpanorama.org/Mail/history.shtml">Mail</a> :
+<a href="http://www.softpanorama.org/DNS/history.shtml">DNS</a> : <a href="http://www.softpanorama.org/Net/Application_layer/SSH/ssh_history.shtml">SSH</a> 
+: <a href="http://www.softpanorama.org/History/cpu_history.shtml">CPU Instruction Sets</a> :
+<a href="http://www.softpanorama.org/Hardware/Sun/history_of_sparc.shtml">SPARC systems 1987-2006</a> :
+<a href="http://www.softpanorama.org/OFM/Paradigm/Ch03/norton_commander.shtml">Norton Commander</a> :
+<a href="http://www.softpanorama.org/Windows/Norton_utilities/history.shtml">Norton Utilities</a> :
+<a href="http://www.softpanorama.org/Windows/Ghosting/ghost_history.shtml">Norton Ghost</a> :
+<a href="http://www.softpanorama.org/Office/Frontpage/history.shtml">Frontpage history</a> :
+<a href="http://www.softpanorama.org/Malware/Malware_defense_history/index.shtml">Malware Defense History</a> :
+<a href="http://www.softpanorama.org/Utilities/Screen/history.shtml">GNU Screen</a> : </font>
+<a href="http://www.softpanorama.org/OSS/oss_early_history.shtml"><font size="2">OSS early history</font></a></font></b></p>
+</blockquote>
+
+<p><b>Classic books:</b></p>
+<blockquote>
+
+<p><b><font face="Arial"><a href="http://www.softpanorama.org/Bookshelf/Classic/peter_principle.shtml"><font size="2">The Peter 
+Principle</font></a><font size="2"> : <a href="http://www.softpanorama.org/Bookshelf/Classic/parkinson_law.shtml">Parkinson 
+Law</a> : <a href="http://www.softpanorama.org/Bookshelf/Classic/nineteen_eighty_four.shtml">1984</a> :
+<a href="http://www.softpanorama.org/Bookshelf/Classic/tmmm.shtml">The Mythical Man-Month</a> :&nbsp;
+<a href="http://www.softpanorama.org/Bookshelf/Classic/polya_htsi.shtml">How to Solve It by George Polya</a> :
+<a href="http://www.softpanorama.org/Bookshelf/Classic/taocp.shtml">The Art of Computer Programming</a> :
+<a href="http://www.softpanorama.org/Bookshelf/Classic/teops.shtml">The Elements of Programming Style</a> :
+<a href="http://www.softpanorama.org/Bookshelf/Classic/unix_haters_handhook.shtml">The Unix Hater’s Handbook</a> :
+<a href="http://www.softpanorama.org/Bookshelf/Classic/jargon_file.shtml">The Jargon file</a> :
+<a href="http://www.softpanorama.org/Bookshelf/Classic/true_believer.shtml">The True Believer</a> :
+<a href="http://www.softpanorama.org/Bookshelf/Classic/programming_pearls.shtml">Programming Pearls</a> :
+<a href="http://www.softpanorama.org/Bookshelf/Classic/good_soldier_svejk.shtml">The Good Soldier Svejk</a> : </font>
+<a href="http://www.softpanorama.org/Bookshelf/Classic/power_elite.shtml"><font size="2">The Power Elite</font></a></font></b></p>
+</blockquote>
+
+<p><b>Most popular humor pages:</b></p>
+<blockquote>
+
+<p><font face="Arial"><b><a href="http://www.softpanorama.org/Bulletin/Humor/Slackerism/it_slacker_manifest.shtml">
+<font size="2">Manifest of the Softpanorama IT Slacker Society</font></a><font size="2"> :
+<a href="http://www.softpanorama.org/Bulletin/Humor/Slackerism/ten_commandments_of_software_slackerism.shtml">Ten Commandments 
+of the IT Slackers Society</a> : <a href="http://www.softpanorama.org/Bulletin/Humor/index.shtml">Computer Humor Collection</a> 
+: <a href="http://www.softpanorama.org/Bulletin/Humor/bsd_logo_story.shtml">BSD Logo Story</a> :
+<a href="http://www.softpanorama.org/Bulletin/Humor/cuckoo_egg.shtml">The Cuckoo's Egg </a>:
+<a href="http://www.softpanorama.org/Bulletin/Humor/slang.shtml">IT Slang</a> : <a href="http://www.softpanorama.org/Lang/Cpp_rama/humor.shtml">C++ Humor</a> 
+: <a href="http://www.softpanorama.org/Bulletin/Humor/Archive/humor059.shtml">ARE YOU A BBS ADDICT?</a> :
+<a href="http://www.softpanorama.org/Bulletin/Humor/Archive/humor092.shtml">The Perl Purity Test</a> :
+<a href="http://www.softpanorama.org/Bulletin/Humor/Archive/humor065.shtml">Object oriented programmers of all nations</a> 
+: <a href="http://www.softpanorama.org/Skeptics/Financial_skeptic/Humor/financial_humor.shtml">Financial Humor</a> :
+<a href="http://www.softpanorama.org/Skeptics/Financial_skeptic/Humor/Bulletin/financial_humor2008.shtml">Financial Humor Bulletin, 
+2008</a> : <a href="http://www.softpanorama.org/Skeptics/Financial_skeptic/Humor/Bulletin/financial_humor2010.shtml">Financial 
+Humor Bulletin, 2010</a> : <a href="http://www.softpanorama.org/Editors/humor.shtml">The Most Comprehensive Collection of Editor-related 
+Humor</a> : <a href="http://www.softpanorama.org/Lang/programming_languages_humor.shtml">Programming Language Humor</a> :
+<a href="http://www.softpanorama.org/Skeptics/Financial_skeptic/Casino_capitalism/Systemic_instability_of_financial_sector/TBTF/Goldman_Sachs/humor.shtml">
+Goldman Sachs related humor</a> :
+<a href="http://www.softpanorama.org/Skeptics/Financial_skeptic/Casino_capitalism/Twelve_apostles_of_deregulation/Greenspan/greenspan_humor.shtml">
+Greenspan humor</a> : <a href="http://www.softpanorama.org/Lang/Cilorama/humor.shtml">C Humor</a> :
+<a href="http://www.softpanorama.org/Scripting/humor.shtml">Scripting Humor</a> :
+<a href="http://www.softpanorama.org/Bulletin/Humor/real_programmers_humor.shtml">Real Programmers Humor</a> :
+<a href="http://www.softpanorama.org/WWW/humor.shtml">Web Humor</a> : <a href="http://www.softpanorama.org/Copyright/humor.shtml">GPL-related Humor</a> 
+: <a href="http://www.softpanorama.org/OFM/ofm_humor.shtml">OFM Humor</a> :
+<a href="http://www.softpanorama.org/Skeptics/Political_skeptic/humor.shtml">Politically Incorrect Humor</a> :
+<a href="http://www.softpanorama.org/Security/IDS/humor.shtml">IDS Humor</a> : <a href="http://www.softpanorama.org/Bulletin/Humor/linux_sucks.shtml">
+"Linux Sucks" Humor </a>: <a href="http://www.softpanorama.org/Links/Russian/Culture/Music/russian_musical_humor.shtml">Russian 
+Musical Humor</a> : <a href="http://www.softpanorama.org/Bulletin/Humor/best_russian_programmer_humor.shtml">Best Russian Programmer 
+Humor</a> : <a href="http://www.softpanorama.org/Bulletin/Humor/Archive/humor070.shtml">Microsoft plans to buy Catholic Church</a> 
+: <a href="http://www.softpanorama.org/People/Stallman/rms_related_humor.shtml">Richard Stallman Related Humor</a> :
+<a href="http://www.softpanorama.org/Admin/humor.shtml">Admin Humor</a> : <a href="http://www.softpanorama.org/People/Wall/perl_related_humor.shtml">Perl-related 
+Humor</a> : <a href="http://www.softpanorama.org/People/Torvalds/linus_torvalds_related_humor.shtml">Linus Torvalds Related 
+humor</a> : <a href="http://www.softpanorama.org/Skeptics/humor.shtml">PseudoScience Related Humor</a> :
+<a href="http://www.softpanorama.org/Net/net_humor.shtml">Networking Humor</a> :
+<a href="http://www.softpanorama.org/Scripting/Shellorama/humor.shtml">Shell Humor</a> :
+<a href="http://www.softpanorama.org/Skeptics/Financial_skeptic/Humor/Bulletin/financial_humor2011.shtml">Financial Humor Bulletin, 
+2011</a> : <a href="http://www.softpanorama.org/Skeptics/Financial_skeptic/Humor/Bulletin/financial_humor2012.shtml">Financial 
+Humor Bulletin, 2012</a> :
+<a href="http://www.softpanorama.org/Skeptics/Financial_skeptic/Humor/Bulletin/financial_humor2013.shtml">Financial Humor Bulletin, 
+2013</a> : <a href="http://www.softpanorama.org/Lang/Javarama/humor.shtml">Java Humor</a> : <a href="http://www.softpanorama.org/SE/humor.shtml">Software 
+Engineering Humor</a> : <a href="http://www.softpanorama.org/Solaris/humor.shtml">Sun Solaris Related Humor</a> :
+<a href="http://www.softpanorama.org/Education/humor.shtml">Education Humor</a> : <a href="http://www.softpanorama.org/Admin/Tivoli/ibm_humor.shtml">IBM 
+Humor</a> : <a href="http://www.softpanorama.org/Lang/Asmorama/humor.shtml">Assembler-related Humor</a> :
+<a href="http://www.softpanorama.org/Editors/Vimorama/vim_humor.shtml">VIM Humor</a> : <a href="http://www.softpanorama.org/Malware/humor.shtml">Computer 
+Viruses Humor</a> : <a href="http://www.softpanorama.org/Bulletin/Humor/Archive/humor034.shtml">Bright tomorrow is rescheduled 
+to a day after tomorrow</a> : <a href="http://www.softpanorama.org/Bulletin/Humor/classic_computer_humor.shtml">Classic Computer 
+Humor</a> </font></b></font></p>
+</blockquote>
+
+<p align="left"><b><a href="http://www.softpanorama.org/Bulletin/Humor/last_but_not_least.shtml">The Last but not Least</a> <em></em></b><em>Technology is dominated by 
+two types of people: those who understand what they do not manage and those who manage what they do not understand ~Archibald Putt. 
+Ph.D</em></p>
+<hr size="5" noshade="" color="#FF0000"><font face="Verdana" size="1">
+
+<p><i><b>Copyright © 1996-2018 by Dr. Nikolai Bezroukov</b></i>. <a target="_blank" href="http://www.softpanorama.org/Net/Network_interface_layer/ethernet.shtml">www.softpanorama.org</a> 
+was initially created as a service to the (now defunct) UN Sustainable Development Networking Programme (<a target="_blank" href="http://www.un.org/Depts/dhl/sflib/">SDNP</a>) 
+in the author free time and without any remuneration. This document is an industrial compilation designed and <b>created exclusively 
+for educational use</b> and is distributed under the <a href="http://www.softpanorama.org/license.shtml">Softpanorama Content License</a>. 
+Original materials copyright belong 
+to respective owners. <i><b>Quotes are made<font color="#FF0000"> for educational purposes only</font> 
+in compliance with the fair use doctrine. </b></i> 
+</p>
+
+<p><em><b>FAIR USE NOTICE</b> </em>This site contains 
+		copyrighted material the use of which has not always been specifically 
+		authorized by the copyright owner. We are making such material available 
+		to advance understanding of computer science, IT technology, economic, scientific, and social  
+		issues. We believe this constitutes a 'fair use' of any such 
+		copyrighted material as provided by section 107 of the US Copyright Law according to which 
+such material can be distributed without profit exclusively for research and educational purposes.</p>
+
+<p><b>This is a Spartan WHYFF (We Help You For Free) 
+site written by people for whom English is not a native language.</b> Grammar and spelling errors should 
+be expected. <b>The site contain some broken links as it develops like a living tree...</b></p>
+
+<table border="0" width="100%">
+<tbody><tr>
+<td><font face="Verdana" size="1">
+<input type="image" src="./Ethernet Protocol_files/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+<img alt="" border="0" src="./Ethernet Protocol_files/pixel.gif" width="1" height="1">
+</font></td>
+<td><font face="Verdana" size="1">You can use PayPal to make a contribution, supporting development 
+of this site and speed up access. In case softpanorama.org is down you can use the at softpanorama.info </font></td>
+</tr>
+</tbody></table>
+
+<p><b>Disclaimer:</b> </p>
+
+<p><i>The statements, views and opinions presented on this web page are those of the author (or 
+referenced source) and are 
+not endorsed by, nor do they necessarily reflect, the opinions of the author present and former employers, SDNP or any other organization the author may be associated with.</i> <i>We do not warrant the correctness 
+of the information provided or its fitness for any purpose.</i></p>
+</font>
+
+<p><font face="Verdana" size="1">
+
+The site uses AdSense so you need to be aware of Google privacy policy. You you do not want to be 
+tracked by Google please disable Javascript for this site. <em>This site is perfectly usable without 
+Javascript.</em> 
+</font></p>
+<p><em>Last modified:
+<!--webbot bot="Timestamp" s-type="EDITED" s-format="%B %d, %Y" startspan -->January 10, 2019<!--webbot bot="Timestamp" i-checksum="32029" endspan --> </em>
+</p>
+
+
+
+
+<iframe id="google_osd_static_frame_643886356344" name="google_osd_static_frame" __idm_frm__="292" style="display: none; width: 0px; height: 0px;" src="./Ethernet Protocol_files/saved_resource(3).html"></iframe></body><iframe id="google_shimpl" __idm_frm__="285" style="display: none;" src="./Ethernet Protocol_files/saved_resource(4).html"></iframe><iframe id="google_esf" name="google_esf" src="./Ethernet Protocol_files/zrt_lookup.html" data-ad-client="ca-pub-4031247137266443" __idm_frm__="287" style="display: none;"></iframe></html>

@@ -1,0 +1,23 @@
+body {Background-color: #FFFFFF link: #0000CC vlink: #660066} 
+h1  { font-family: arial; text-align: Center; color: #CC0000 }
+h2  { font-family: arial; text-align: Center; color: #0000CC }
+h3  { font-family: arial; text-align: Center }
+h4  { font-family: Arial;  color: #006400}
+h5  { font-family: Arial;  color: #333300; font-style: italic}
+h6  { font-family: Arial; font-size: 10pt; font-style: bold}
+em  { font-style: italic; font-weight: bold; color: #FF0000}
+cite {font-family: arial; font-weight: bold; font-size: 10pt;}
+a  {color: #0000FF;}
+
+p.petit { font-family: arial; font-size: smaller }
+table.swb    {Background-color: cyan}
+td.swb       { border-right-style: solid; border-bottom-style: solid }
+table.nb    {Background-color: #ffffcc}
+tr.nb       { text-align: Center; font-weight: bold }
+td.nb        { border-style: solid }
+kbd {font-family: Fixedsys; font-size: 12pt; color: #0000FF;}
+tt {font-family: Fixedsys; font-size: 12pt; color: #0000FF;}
+code {font-family: Fixedsys; font-size: 12pt; color: #0000FF;}
+pre {font-family: Fixedsys; color: #0000FF; font-size: 12pt; margin: 1em 40px; }
+pre.code {font-family: Fixedsys; color: #0000FF; margin: 1em 40px;}
+blockquote {font-size: 10pt; font-family: arial; background: #F9F9F9}
